@@ -59,11 +59,8 @@ class DateTimeType extends AbstractType
                 ->add('day', 'choice', array(
                     'choices' => $dayChoices
                 ))
-                ->addViewTransformer(new DateTimeToArrayTransformer(
-                    $this->date, $options['model_timezone'], $options['view_timezone'], array('year', 'month', 'day')
-                ))
-                ->addModelTransformer(new ReversedTransformer(
-                    new DateTimeToArrayTransformer($this->date, $options['model_timezone'], $options['model_timezone'], array('year', 'month', 'day'))
+                ->addModelTransformer(new DateTimeToArrayTransformer(
+                    $this->date, $options['model_timezone'], $options['view_timezone'], [ 'year' , 'month' , 'day' ]
                 ));
         } elseif($options['widget'] == 'jquery') {
             $builder
@@ -92,9 +89,12 @@ class DateTimeType extends AbstractType
     {
 
         $resolver->setDefaults(array(
-            'years' => range($this->date->format('Y') - 5, $this->date->format('Y') + 5),
-            'months' => range(1, 12),
-            'days' => range(1, 31),
+            'years' => array_combine(
+                $years = range($this->date->format('Y') - 5, $this->date->format('Y') + 5),
+                $years
+            ),
+            'months' => array_combine( $months = range(1, 12) , $months ),
+            'days' => array_combine( $days  = range(1, 31) , $days ),
             'widget' => 'choice',
             'input' => 'datetime',
             'model_timezone' => null,
