@@ -138,6 +138,9 @@ class DateTimeToArrayTransformer extends BaseDateTimeTransformer
             throw new TransformationFailedException('Expected an array.');
         }
 
+        if ( $value['year'] == 0 || $value['month'] == 0 || $value['day'] == 0 )
+            return null;
+
         if ('' === implode('', $value)) {
             return null;
         }

@@ -48,6 +48,14 @@ class DateTimeType extends AbstractType
         $monthChoices = $this->formatMonths($options['months']);
         $dayChoices = $options['days'];
 
+        if ( !$options['required'] ) {
+            $yearChoices   = [ $options['empty_data'] ] + $yearChoices;
+            $monthChoices = [ $options['empty_data'] ] + $monthChoices;
+            $dayChoices = [ $options['empty_data'] ] + $dayChoices;
+        }
+
+        $labeled = $options['with_label'];
+
         if($options['widget'] == 'choice') {
             $builder
                 ->add('year', 'choice', array(
@@ -101,7 +109,10 @@ class DateTimeType extends AbstractType
             'view_timezone' => null,
             'by_reference' => false,
             'error_bubbling' => false,
-            'data_class' => null
+            'data_class' => null,
+            'required'      => true,
+            'empty_data'    => '-',
+            'with_label'    => true
         ));
 
         $resolver->setAllowedValues(array(
