@@ -1,31 +1,20 @@
 <?php
-
-/*
- * This file is part of the Symfony package.
- *
- * (c) Fabien Potencier <fabien@symfony.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace Mohebifar\DateTimeBundle\Form;
 
 use Mohebifar\DateTimeBundle\Calendar\Proxy;
-use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormView;
-use Symfony\Component\Form\Extension\Core\DataTransformer\DateTimeToLocalizedStringTransformer;
-use Symfony\Component\Form\Extension\Core\DataTransformer\DateTimeToStringTransformer;
-use Symfony\Component\Form\Extension\Core\DataTransformer\DateTimeToTimestampTransformer;
-use Symfony\Component\Form\ReversedTransformer;
-use Symfony\Component\OptionsResolver\Options;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Mohebifar\DateTimeBundle\Form\Transformer\DateTimeToArrayTransformer;
 
+/**
+ * Class DateTimeType
+ * @package Mohebifar\DateTimeBundle\Form
+ * @author Mohammad Mohebifar <mohamad@mohebifar.com>
+ * @author Masoud Zohrabi <mdzzohrabi@gmail.com>
+ */
 class DateTimeType extends AbstractType
 {
 
@@ -90,34 +79,30 @@ class DateTimeType extends AbstractType
 
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
 
-        $resolver->setDefaults(array(
-            'years' => array_combine(
-                $years = range($this->date->format('Y') - 5, $this->date->format('Y') + 5),
-                $years
-            ),
-            'months' => array_combine( $months = range(1, 12) , $months ),
-            'days' => array_combine( $days  = range(1, 31) , $days ),
-            'widget' => 'choice',
-            'input' => 'datetime',
-            'model_timezone' => null,
-            'view_timezone' => null,
-            'by_reference' => false,
-            'error_bubbling' => false,
-            'data_class' => null,
-            'required'      => true,
-            'empty_data'    => '-',
-            'with_label'    => true
-        ));
-
         $resolver
+            ->setDefaults(array(
+                'years' => array_combine(
+                    $years = range($this->date->format('Y') - 5, $this->date->format('Y') + 5),
+                    $years
+                ),
+                'months' => array_combine( $months = range(1, 12) , $months ),
+                'days' => array_combine( $days  = range(1, 31) , $days ),
+                'widget' => 'choice',
+                'input' => 'datetime',
+                'model_timezone' => null,
+                'view_timezone' => null,
+                'by_reference' => false,
+                'error_bubbling' => false,
+                'data_class' => null,
+                'required'      => true,
+                'empty_data'    => '-',
+                'with_label'    => true
+            ))
             ->setAllowedValues( 'input' , array( 'datetime' , 'timestamp' , 'array' ) )
-            ->setAllowedValues( 'widget', array( 'text'     , 'choice'    , 'jquery' ) )
+            ->setAllowedValues( 'widget' , array( 'text' , 'choice' , 'jquery' ) )
         ;
 
     }
