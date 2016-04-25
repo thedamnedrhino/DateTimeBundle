@@ -1,5 +1,5 @@
 {
-    "name": "mohebifar/date-time-bundle",
+    "name": "mdzzohrabi/date-time-bundle",
     "type": "symfony-bundle",
     "description": "DateTimeBundle is a Symfony2 bundle which helps you to show Datetimes based on a calendar and provides a DatePicker (Choice and jQuery DatePicker) Form type. CalendarBundle uses a strategy that allows you to make your arbitary calendar driver.",
     "keywords": [

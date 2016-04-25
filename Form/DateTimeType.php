@@ -115,18 +115,11 @@ class DateTimeType extends AbstractType
             'with_label'    => true
         ));
 
-        $resolver->setAllowedValues(array(
-            'input' => array(
-                'datetime',
-                'timestamp',
-                'array',
-            ),
-            'widget' => array(
-                'text',
-                'choice',
-                'jquery',
-            ),
-        ));
+        $resolver
+            ->setAllowedValues( 'input' , array( 'datetime' , 'timestamp' , 'array' ) )
+            ->setAllowedValues( 'widget', array( 'text'     , 'choice'    , 'jquery' ) )
+        ;
+
     }
 
     /**
