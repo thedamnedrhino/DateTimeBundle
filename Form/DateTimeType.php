@@ -3,6 +3,8 @@ namespace Mohebifar\DateTimeBundle\Form;
 
 use Mohebifar\DateTimeBundle\Calendar\Proxy;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormView;
@@ -43,25 +45,37 @@ class DateTimeType extends AbstractType
             $dayChoices = [ $options['empty_data'] ] + $dayChoices;
         }
 
+        // Symfony 3.0 Changes
+        if ( method_exists( AbstractType::class , 'getBlockPrefix' ) ) {
+            $choiceType = ChoiceType::class;
+            $textType = TextType::class;
+        } else {
+            $choiceType = 'choice';
+            $textType = 'text';
+        }
+
         $labeled = $options['with_label'];
 
         if($options['widget'] == 'choice') {
             $builder
-                ->add('year', 'choice', array(
-                    'choices' => $yearChoices
+                ->add('year', $choiceType, array(
+                    'choices' => $yearChoices,
+                    'choice_translation_domain' => false
                 ))
-                ->add('month', 'choice', array(
-                    'choices' => $monthChoices
+                ->add('month', $choiceType, array(
+                    'choices' => $monthChoices,
+                    'choice_translation_domain' => false
                 ))
-                ->add('day', 'choice', array(
-                    'choices' => $dayChoices
+                ->add('day', $choiceType, array(
+                    'choices' => $dayChoices,
+                    'choice_translation_domain' => false
                 ))
                 ->addModelTransformer(new DateTimeToArrayTransformer(
                     $this->date, $options['model_timezone'], $options['view_timezone'], [ 'year' , 'month' , 'day' ]
                 ));
         } elseif($options['widget'] == 'jquery') {
             $builder
-                ->add('date', 'text')
+                ->add('date', $textType)
                ;
         }
     }
