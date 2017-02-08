@@ -13,6 +13,14 @@ use Symfony\Component\Form\FormView;
 class DateTimeFilterExtension extends \Twig_Extension
 {
 
+    /**
+     * @var TwigRendererInterface
+     */
+    protected $renderer;
+
+    /**
+     * @var Proxy
+     */
     private $service;
 
     /**
@@ -32,7 +40,7 @@ class DateTimeFilterExtension extends \Twig_Extension
     public function getFilters()
     {
         return array(
-            'date_format' => new \Twig_Filter_Method($this, 'dateFilter'),
+            'date_format' => new \Twig_Filter( 'date_format' , [ $this , 'dateFilter' ]),
         );
     }
 
@@ -42,9 +50,9 @@ class DateTimeFilterExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            'form_datetime_js_asset' => new \Twig_Function_Method($this, 'renderJavascriptAsset', array('is_safe' => array('html'))),
-            'form_datetime_js' => new \Twig_Function_Method($this, 'renderJavascript', array('is_safe' => array('html'))),
-            'form_datetime_css' => new \Twig_Function_Node('Symfony\Bridge\Twig\Node\SearchAndRenderBlockNode', array('is_safe' => array('html'))),
+            new \Twig_Function( 'from_datetime_js_asset' , [ $this , 'renderJavascriptAsset' ], array('is_safe' => array('html'))),
+            new \Twig_Function( 'form_datetime_js', [ $this , 'renderJavascript' ], array('is_safe' => array('html'))),
+//            'form_datetime_css' => new \Twig_Function_Node('Symfony\Bridge\Twig\Node\SearchAndRenderBlockNode', array('is_safe' => array('html'))),
         );
     }
 
